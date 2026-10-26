@@ -1,0 +1,36 @@
+; WinUSB binding for Allwinner FEL / BROM USB mode.
+; Scope is intentionally limited to USB\VID_1F3A&PID_EFE8.
+
+[Version]
+Signature = "$Windows NT$"
+Class = USBDevice
+ClassGuid = {88BAE032-5A81-49f0-BC3D-A4FF138216D6}
+Provider = %ProviderName%
+DriverVer = 07/27/2026,1.0.0.0
+CatalogFile = AllwinnerFelWinusb.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64
+
+[Standard.NTamd64]
+%DeviceName% = WinUSB_Install, USB\VID_1F3A&PID_EFE8
+
+[WinUSB_Install]
+Include = winusb.inf
+Needs = WINUSB.NT
+
+[WinUSB_Install.Services]
+Include = winusb.inf
+Needs = WINUSB.NT.Services
+
+[WinUSB_Install.HW]
+AddReg = DeviceInterfaceGUIDs
+
+[DeviceInterfaceGUIDs]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{F5D80827-8D8D-4E88-9B6A-4FC588549AA2}"
+
+[Strings]
+ProviderName = "Local A733 Bring-up"
+ManufacturerName = "Allwinner"
+DeviceName = "Allwinner FEL BootROM (WinUSB)"

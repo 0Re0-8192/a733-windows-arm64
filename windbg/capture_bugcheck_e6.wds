@@ -1,0 +1,13 @@
+.echo === A733 capture: bugcheck 0xE6 DRIVER_VERIFIER_DMA_VIOLATION ===
+.bugcheck
+.echo === Stack ===
+k
+kv
+.echo === Raw KiBugCheckData ===
+dq nt!KiBugCheckData L8
+.echo === Analyze ===
+!analyze -v
+.echo === Loaded driver ===
+lm m a733*
+.echo E6CAPTURE_DONE
+q
