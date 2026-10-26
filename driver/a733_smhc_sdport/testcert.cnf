@@ -1,0 +1,14 @@
+[ req ]
+distinguished_name = subject
+prompt = no
+x509_extensions = extensions
+
+[ subject ]
+CN = A733 SMHC Owned-Device Test Signing
+
+[ extensions ]
+basicConstraints = critical,CA:FALSE
+keyUsage = critical,digitalSignature
+extendedKeyUsage = codeSigning
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid

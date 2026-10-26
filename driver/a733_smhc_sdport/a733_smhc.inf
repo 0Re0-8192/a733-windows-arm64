@@ -1,0 +1,59 @@
+[Version]
+Signature="$Windows NT$"
+Class=SDHost
+ClassGUID={a0a588a4-c46f-4b37-b7ea-c82fe89870c6}
+Provider=%ProviderName%
+DriverVer=07/20/2026,1.0.0.0
+CatalogFile=A733Smhc.cat
+PnpLockdown=1
+
+[SourceDisksNames]
+1=%DiskName%
+
+[SourceDisksFiles]
+a733smhc.sys=1
+
+[DestinationDirs]
+A733Smhc_CopyFiles=13
+
+[Manufacturer]
+%ManufacturerName%=A733Smhc_Models,NTARM64.10.0...25398
+
+[A733Smhc_Models.NTARM64.10.0...25398]
+%A733Smhc.DeviceDesc%=A733Smhc_Install,ACPI\AWI0001
+
+[A733Smhc_Install]
+CopyFiles=A733Smhc_CopyFiles
+AddReg=A733Smhc_DeviceReg
+
+[A733Smhc_Install.Services]
+AddService=a733smhc,0x00000002,A733Smhc_Service
+
+[A733Smhc_CopyFiles]
+a733smhc.sys
+
+[A733Smhc_DeviceReg]
+HKR,,Driver,,"a733smhc.sys"
+HKR,,UINumberDescFormat,,%SlotDescription%
+
+[A733Smhc_Service]
+DisplayName=%A733Smhc.ServiceDesc%
+ServiceType=1
+StartType=0
+ErrorControl=1
+ServiceBinary=%13%\a733smhc.sys
+LoadOrderGroup=System Bus Extender
+BootFlags=0x00000008
+AddReg=A733Smhc_ServiceReg
+
+[A733Smhc_ServiceReg]
+HKR,Parameters,SdCmdFlags,1,05,01,06,01,08,11,09,19,0A,19,0D,11,10,01,11,01,12,01,17,01,18,05,19,05,1A,01,1B,01,1C,01,20,05,21,05,26,05,2A,01,34,02,35,02,37,01,38,01,22,01,23,05,24,01,25,01
+HKR,Parameters,SdAppCmdFlags,1,06,01,0D,01,16,01,17,01,33,01,12,01,19,01,1A,01,26,01,2B,01,2C,01,2D,01,2E,01,2F,01,30,01,31,01
+
+[Strings]
+ProviderName="A733 bring-up"
+ManufacturerName="A733 bring-up"
+DiskName="A733 SMHC SDPORT miniport package"
+A733Smhc.DeviceDesc="Allwinner A733 SMHC0 SD Host Controller"
+A733Smhc.ServiceDesc="Allwinner A733 SMHC0 SDPORT Miniport"
+SlotDescription="A733 SD Host Slot %1!u!"
