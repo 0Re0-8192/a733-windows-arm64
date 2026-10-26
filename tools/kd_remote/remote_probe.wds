@@ -1,0 +1,4 @@
+.echo REMOTE-KD-CONNECTED
+vertarget
+.echo REMOTE-KD-END
+qd
