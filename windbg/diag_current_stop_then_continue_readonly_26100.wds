@@ -1,0 +1,24 @@
+.echo A733_CURRENT_STOP_THEN_CONTINUE_READONLY_26100_BEGIN
+.echo PURPOSE owned-device Windows kernel bring-up: capture current KD stop state, then continue without breakpoints
+.echo SAFETY no target PC/register value writes, no breakpoints, no Windows policy/security change, no persistent target change
+.echo NOTE this script does not use bp/bu/ba, bc, or target register assignment
+.prefer_dml 0
+
+.echo A733_CURRENT_STOP
+.time
+vertarget
+lm
+r
+kv
+.catch { !thread }
+.catch { !process 0 0 }
+.catch { u @pc L24 }
+.catch { u @lr L24 }
+.catch { u nt!KeBugCheckEx L20 }
+.catch { u nt!PoShutdownBugCheck L20 }
+.catch { u nt!HalReturnToFirmware L20 }
+.catch { u nt!Phase1Initialization L30 }
+.catch { u nt!DebugService2 L12 }
+
+.echo A733_CONTINUING_WITHOUT_BREAKPOINTS
+g

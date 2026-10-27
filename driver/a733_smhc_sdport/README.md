@@ -4,6 +4,8 @@ This is the first Windows-visible storage candidate for the owned A733 bring-
 up target. It is a hardware-specific SDPORT miniport, not a standard SDHCI
 driver.
 
+## Scope
+
 Initial scope:
 
 - ACPI-enumerated `AWI0001` / SMHC0 at `0x04020000`, IRQ 193.
@@ -14,6 +16,8 @@ Initial scope:
   PIO, with a volatile before/requested/after and observation-target audit;
 - 1-bit and 4-bit, 3.3 V, normal-speed operation;
 - no DMA, IOMMU, UHS, tuning, sleep/resume guarantee, or crashdump support.
+
+## PIO data path and recovery
 
 PIO remains a deliberate bring-up constraint that removes IOMMU and coherency
 from the initial storage path. Single-block and write callbacks drain each
@@ -73,6 +77,8 @@ as present, and power/voltage callbacks rely on the UEFI-preserved rail. These
 are bring-up constraints, not a complete removable-media or power-management
 implementation.
 
+## Build
+
 Build the unsigned ARM64 package:
 
 ```powershell
@@ -89,6 +95,8 @@ guarded step must use supported Windows test signing for this owned-device
 driver-development image. Do not use `nointegritychecks`, signature bypasses,
 or production deployment.
 
+## Test signing
+
 `New-TestSignedPackage.ps1` can create the diagnostic test-signed package
 without changing the host certificate stores or boot policy. It signs the
 driver and catalog with one short-lived owned-device test certificate, exports
@@ -99,8 +107,10 @@ certificate generated with the host's current date can load under TESTSIGNING
 but fail SetupAPI verification during specialize. Use `-SkipBuild` only when
 re-signing an already validated build. Offline certificate-store `Blob` values
 must contain a CryptoAPI serialized store element, not raw DER certificate
-bytes; `scratch/usb_shortening/Export-SerializedTestCertificate.ps1` creates
+bytes; `tools/Export-SerializedTestCertificate.ps1` creates
 and round-trips that representation without opening host trust stores.
+
+## WinPE diagnostic media
 
 `build-winpe-cert-install.ps1` builds the native ARM64
 `A733WinPeCertInstall.exe` helper. During the diagnostic boot only, the helper

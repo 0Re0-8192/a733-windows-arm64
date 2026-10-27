@@ -95,4 +95,4 @@ without a newline, burst overflow, unavailable sinks, child creation
 failure, successful-child logging failure, and descendant pipe lifetime.
 
 Always switch the target relay off in a `finally` block after a hardware
-capture, using `scratch/usb_shortening/usb_relay_control.ps1 -Action off`.
+capture, using `board/usb_relay_control.ps1 -Action off`.
