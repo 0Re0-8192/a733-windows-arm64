@@ -395,7 +395,13 @@ static int Run(int mode, int index, int absent, DWORD expected, const CHAR *stag
 int wmain(int argc, wchar_t **argv)
 {
     static const WCHAR *envs[] = { L"A733_TEST_NTFS_VBR", L"A733_TEST_NTFS_FILE", L"A733_TEST_NTFS_VOLUME_DATA" };
-    static const WCHAR fixtureRoot[] = L".\\analysis\\";
+    WCHAR fixtureRoot[MAX_PATH];
+    {
+        WCHAR workDir[MAX_PATH];
+        DWORD workDirLength = GetEnvironmentVariableW(L"A733_WORKDIR", workDir, MAX_PATH);
+        if (!workDirLength || workDirLength >= MAX_PATH - 16) return 91;
+        swprintf_s(fixtureRoot, MAX_PATH, L"%ls\\analysis\\", workDir);
+    }
     WCHAR path[1024];
     CHAR prefix[64], text[32];
     int i, j, absent, failures = 0, cases = 0;

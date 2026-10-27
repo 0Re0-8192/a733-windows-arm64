@@ -222,7 +222,13 @@ static BOOL WINAPI TestClose(HANDLE h)
 
 int wmain(int argc, wchar_t **argv)
 {
-    static const WCHAR fixtureRoot[] = L".\\analysis\\";
+    WCHAR fixtureRoot[MAX_PATH];
+    {
+        WCHAR workDir[MAX_PATH];
+        DWORD workDirLength = GetEnvironmentVariableW(L"A733_WORKDIR", workDir, MAX_PATH);
+        if (!workDirLength || workDirLength >= MAX_PATH - 16) return 91;
+        swprintf_s(fixtureRoot, MAX_PATH, L"%ls\\analysis\\", workDir);
+    }
     WCHAR path[MAX_PATH];
     WCHAR envName[64];
     CHAR mode[8];

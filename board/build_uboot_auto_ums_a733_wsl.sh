@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BUILD_ROOT=$HOME/a733-usb-shortening-build
-OUT_ROOT=$PWD/artifacts
+BUILD_ROOT="${BUILD_ROOT:-$HOME/a733-usb-shortening-build}"
+OUT_ROOT="${OUT_ROOT:-$PWD/artifacts}"
 
 echo "A733 auto-UMS U-Boot build started: $(date -Is)"
 

@@ -245,7 +245,13 @@ static int RunCase(int mode, int fault, DWORD expected, BOOL dispatch)
 }
 int wmain(int argc, wchar_t **argv)
 {
-    static const WCHAR fixtureRoot[] = L".\\analysis\\";
+    WCHAR fixtureRoot[MAX_PATH];
+    {
+        WCHAR workDir[MAX_PATH];
+        DWORD workDirLength = GetEnvironmentVariableW(L"A733_WORKDIR", workDir, MAX_PATH);
+        if (!workDirLength || workDirLength >= MAX_PATH - 16) return 91;
+        swprintf_s(fixtureRoot, MAX_PATH, L"%ls\\analysis\\", workDir);
+    }
     WCHAR path[1024], envName[40];
     CHAR modeText[32];
     int i, j, failures = 0, cases = 0;

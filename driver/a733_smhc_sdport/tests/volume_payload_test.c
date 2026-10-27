@@ -357,7 +357,13 @@ static int RunFileCase(int testMode, int index, DWORD expected)
 
 int wmain(int argc, wchar_t **argv)
 {
-    static const WCHAR fixtureRoot[] = L".\\analysis\\";
+    WCHAR fixtureRoot[MAX_PATH];
+    {
+        WCHAR workDir[MAX_PATH];
+        DWORD workDirLength = GetEnvironmentVariableW(L"A733_WORKDIR", workDir, MAX_PATH);
+        if (!workDirLength || workDirLength >= MAX_PATH - 16) return 91;
+        swprintf_s(fixtureRoot, MAX_PATH, L"%ls\\analysis\\", workDir);
+    }
     static const DWORD expected[] = { ERROR_SUCCESS, ERROR_INVALID_DATA, ERROR_INVALID_DATA,
         ERROR_ACCESS_DENIED, ERROR_IO_DEVICE, ERROR_INVALID_DATA, ERROR_INVALID_DATA,
         ERROR_INVALID_DATA, ERROR_INVALID_DATA, ERROR_INVALID_DATA, ERROR_NOT_ENOUGH_MEMORY,
